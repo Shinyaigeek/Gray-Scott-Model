@@ -4,7 +4,8 @@ import {
   slicing,
   get2DArrayWithRange,
   shift2dArray,
-  convert1dArrayTo2d
+  convert1dArrayTo2d,
+  convert2dArrayTo1d
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -112,5 +113,14 @@ describe("2DArray", (): void => {
       [1, 2],
       [3, 4]
     ]);
+  });
+
+  test("convert2dto1d", (): void => {
+    expect(
+      convert2dArrayTo1d([
+        [1, 2],
+        [3, 4]
+      ])
+    ).toEqual([1, 2, 3, 4]);
   });
 });
