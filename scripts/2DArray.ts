@@ -58,7 +58,7 @@ export const shift2dArray = (target: number[][], n: number, axis?: 0 | 1) => {
     return res;
   } else {
     const converted1d = convert2dArrayTo1d(target);
-    const sliced = converted1d.splice(n);
+    const sliced = converted1d.splice(converted1d.length - n);
     return convert1dArrayTo2d(
       sliced.concat(converted1d),
       target[0].length,

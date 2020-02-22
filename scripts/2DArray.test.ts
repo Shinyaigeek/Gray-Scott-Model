@@ -2,7 +2,8 @@ import {
   get2DArrayWithOnes,
   get2DArrayWithZeros,
   slicing,
-  get2DArrayWithRange
+  get2DArrayWithRange,
+  shift2dArray
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -75,6 +76,33 @@ describe("2DArray", (): void => {
       [5, 6, 7, 8],
       [9, 10, 11, 12],
       [13, 14, 15, 16]
+    ]);
+  });
+
+  test("shift2dArray", (): void => {
+    expect(shift2dArray(get2DArrayWithRange(4), 2)).toEqual([
+      [15, 16, 1, 2],
+      [3, 4, 5, 6],
+      [7, 8, 9, 10],
+      [11, 12, 13, 14]
+    ]);
+  });
+
+  test("shift2dArray2", (): void => {
+    expect(shift2dArray(get2DArrayWithRange(4), 2, 0)).toEqual([
+        [9, 10, 11, 12],
+        [13, 14, 15, 16],
+        [1, 2, 3, 4],
+        [5, 6, 7, 8]
+    ]);
+  });
+
+  test("shift2dArray3", (): void => {
+    expect(shift2dArray(get2DArrayWithRange(4), 2, 1)).toEqual([
+        [3, 4, 1, 2],
+        [7, 8, 5, 6],
+        [11, 12, 9, 10],
+        [15, 16, 13, 14]
     ]);
   });
 });
