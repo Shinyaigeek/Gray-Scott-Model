@@ -31,7 +31,19 @@ export const slicing = (
   return res;
 };
 
-export const shift2dArray = (target: any[][], n: number, axis?: 0 | 1) => {
+export const get2DArrayWithRange = (len: number) => {
+  const res = []
+  for(let i = 0; i < len; i++) {
+    const col = []
+    for(let j = 1;j <= len;j++) {
+      col.push(j + i * len)
+    }
+    res.push(col)
+  }
+  return res
+}
+
+export const shift2dArray = (target: number[][], n: number, axis?: 0 | 1) => {
   if (axis === 0) {
     const copy = Array.from(target);
     const sliced = copy.splice(n);
@@ -55,7 +67,7 @@ export const shift2dArray = (target: any[][], n: number, axis?: 0 | 1) => {
   }
 };
 
-export const convert1dArrayTo2d = (target: any[], col: number, row: number) => {
+export const convert1dArrayTo2d = (target: number[], col: number, row: number) => {
   if (target.length !== col * row) {
     throw new Error("Please check col, row, target");
   }
@@ -70,7 +82,7 @@ export const convert1dArrayTo2d = (target: any[], col: number, row: number) => {
   return res;
 };
 
-export const convert2dArrayTo1d = (target: any[][]) => {
+export const convert2dArrayTo1d = (target: number[][]) => {
   const res = [];
   for (let col of target) {
     for (let i of col) {
@@ -80,7 +92,7 @@ export const convert2dArrayTo1d = (target: any[][]) => {
   return res;
 };
 
-export const sum2d2d = (left: any[][], right: any[][]) => {
+export const sum2d2d = (left: number[][], right: number[][]) => {
   if (left.length !== right.length || left[0].length !== right[0].length)
     throw new Error();
   return left.map((col, i) => {
@@ -90,7 +102,7 @@ export const sum2d2d = (left: any[][], right: any[][]) => {
   });
 };
 
-export const minus2d2d = (left: any[][], right: any[][]) => {
+export const minus2d2d = (left: number[][], right: number[][]) => {
   if (left.length !== right.length || left[0].length !== right[0].length)
     throw new Error();
   return left.map((col, i) => {
@@ -100,15 +112,15 @@ export const minus2d2d = (left: any[][], right: any[][]) => {
   });
 };
 
-export const div2dWithSch = (arr: any[][], sch: any) => {
+export const div2dWithSch = (arr: number[][], sch: number) => {
   return arr.map(col => col.map(i => i / sch));
 };
 
-export const mul2dWithSch = (arr: any[][], sch: any) => {
+export const mul2dWithSch = (arr: number[][], sch: number) => {
   return arr.map(col => col.map(i => i * sch));
 };
 
-export const mul2dWith2d = (left: any[][], right:any[][]) => {
+export const mul2dWith2d = (left: number[][], right:number[][]) => {
   return left.map((col,i) => {
     return col.map((c,j) => {
       return calcInner(col, getRow(right,j))
@@ -116,14 +128,14 @@ export const mul2dWith2d = (left: any[][], right:any[][]) => {
   })
 }
 
-export const getRow = (target:any[][], row: number) => {
+export const getRow = (target:number[][], row: number) => {
   const res = target.map((col,i) => {
     return col[row]
   })
   return res
 }
 
-export const calcInner = (left: any[], right:any[]) => {
+export const calcInner = (left: number[], right:number[]) => {
   let ans = 0;
   for (let i in left) {
     ans += left[i] * right[i];
