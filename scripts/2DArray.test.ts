@@ -5,7 +5,8 @@ import {
   get2DArrayWithRange,
   shift2dArray,
   convert1dArrayTo2d,
-  convert2dArrayTo1d
+  convert2dArrayTo1d,
+  sum2d2d
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -122,5 +123,23 @@ describe("2DArray", (): void => {
         [3, 4]
       ])
     ).toEqual([1, 2, 3, 4]);
+  });
+
+  test("sum2d2d", (): void => {
+    expect(
+      sum2d2d(
+        [
+          [1, 2],
+          [3, 4]
+        ],
+        [
+          [5, 6],
+          [7, 8]
+        ]
+      )
+    ).toEqual([
+      [6, 8],
+      [10, 12]
+    ]);
   });
 });
