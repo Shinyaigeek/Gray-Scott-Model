@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import Canvas from "./Canvas";
+import { Board } from "./Board";
+// import Canvas from "./Canvas";
 
 function App() {
+  useEffect(() => {
+    const canvas = new Board(50,50,'canvas')
+    canvas.start()
+  }, []);
   return (
     <div>
-      <Canvas />
+      aaaaaa
+      <canvas id="canvas" width={600} height={600} />
     </div>
   );
 }

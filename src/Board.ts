@@ -5,7 +5,11 @@ import {
   shift2dArray,
   sum2d2d,
   mul2dWithSch,
-  div2dWithSch
+  div2dWithSch,
+  mul2dWith2d,
+  minus2d2d,
+  get2DArrayWithOnes,
+  slicing
 } from "../scripts/2DArray";
 
 export type Loc = {
@@ -16,8 +20,8 @@ export type Loc = {
 export class Board {
   width: number;
   height: number;
-  uMap: UCell[][];
-  vMap: VCell[][];
+  uMap: number[][];
+  vMap: number[][];
   onChange: (x: number, y: number, cell: Cell) => void;
 
   dx: number;
@@ -26,17 +30,28 @@ export class Board {
   Du: number;
   Dv: number;
 
-  constructor(width: number, height: number) {
+  f: number;
+  k: number;
+
+  ctx: CanvasRenderingContext2D;
+
+  constructor(width: number, height: number, id: string) {
     this.width = width;
     this.height = height;
     this.uMap = new Array(this.height).fill(new Array(this.width).fill(1));
     this.vMap = new Array(this.height).fill(new Array(this.width).fill(0));
-    this.clearAll();
+    // console.log(this.uMap,this.vMap)
     this.onChange = function(x: number, y: number, cell: Cell) {};
     this.dx = 0.01;
     this.dt = 1;
     this.Du = 0.0002;
     this.Dv = 0.0001;
+
+    this.f = 0.022;
+    this.k = 0.051;
+
+    const canvas = document.getElementById(id)! as HTMLCanvasElement;
+    this.ctx = canvas.getContext("2D")! as CanvasRenderingContext2D;
   }
 
   calcLaplacian() {
@@ -68,64 +83,71 @@ export class Board {
       this.dx * this.dx
     );
 
+    console.log(laplacianU, laplacianV)
+
     return {
       u: laplacianU,
       v: laplacianV
-    }
+    };
   }
 
-  calcGrayScott(){
+  calcGrayScott() {
     const laplacian = this.calcLaplacian();
-    const dudt = this.Du * 
+    const dudt = sum2d2d(
+      minus2d2d(
+        mul2dWithSch(laplacian.u, this.Du),
+        mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
+      ),
+      mul2dWithSch(
+        minus2d2d(get2DArrayWithOnes(this.uMap.length), this.uMap),
+        this.f
+      )
+    );
+    const dvdt = minus2d2d(
+      sum2d2d(
+        mul2dWithSch(laplacian.v, this.Dv),
+        mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
+      ),
+      mul2dWithSch(this.vMap, this.f + this.k)
+    );
+
+    // console.log(dudt, dvdt)
+
+    // @ts-ignore
+    this.uMap = sum2d2d(this.uMap, mul2dWithSch(dudt, this.dt));
+    // @ts-ignore
+    this.vMap = sum2d2d(this.vMap, mul2dWithSch(dvdt, this.dt));
+    // console.log(this.uMap, this.vMap)
   }
 
-  toIndex(x: number, y: number) {
-    return x + y * this.width;
+  start() {
+    const square = 20;
+    this.uMap = slicing(this.uMap, slicing(this.uMap[0], 0.5,(this.height - square) / 2,(this.height + square) / 2) ,(this.height - square) / 2,(this.height + square) / 2)
+    this.vMap = slicing(this.vMap, slicing(this.vMap[0], 0.25,(this.height - square) / 2,(this.height + square) / 2) ,(this.height - square) / 2,(this.height + square) / 2)
+    setInterval(() => this.calcGrayScott(), 2500);
   }
 
-  toLocation(index: number) {
-    return { x: index % this.width, y: Math.floor(index / this.width) };
+  drawPoint(x: number, y: number, color: string) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x * 3 + 1, y * 3 + 1, 3 - 1, 3 - 1);
   }
 
-  getAllIndexes() {
-    const list = [];
-    for (var y = 0; y < this.height; y++) {
-      for (var x = 0; x < this.width; x++) {
-        list.push(this.toIndex(x, y));
-      }
+  clearPoint(x: number, y: number) {
+    this.ctx.clearRect(x * 3, y * 3, 3, 3);
+  }
+
+  drawPiece(
+    loc: {
+      x: number;
+      y: number;
+    },
+    piece: Cell
+  ) {
+    var cell = piece;
+    if (cell.isAlive) {
+      this.drawPoint(loc.x, loc.y, "#666666");
+    } else {
+      this.clearPoint(loc.x, loc.y);
     }
-    return list;
-  }
-
-  clearAll() {
-    this.map = this.map.map(col => {
-      return col.map(c => new Cell());
-    });
-  }
-
-  reverse(x: number, y: number) {
-    const cell = this.map[x][y];
-    cell.toggle();
-    this.onChange(x, y, cell);
-  }
-
-  set(x: number, y: number, v: number) {
-    const cell = this.map[x][y];
-    cell.concentration = v;
-    this.onChange(x, y, cell);
-  }
-
-  clear(x: number, y: number) {
-    const cell = this.map[x][y];
-    cell.concentration = 0;
-    this.onChange(x, y, cell);
-  }
-
-  corectIndex(x: number, y: number) {
-    x = x < 0 ? this.width - 1 : x;
-    y = y < 0 ? this.height - 1 : y;
-    x = x >= this.width ? 0 : x;
-    y = y >= this.height ? 0 : y;
-    return this.toIndex(x, y);
   }
 }

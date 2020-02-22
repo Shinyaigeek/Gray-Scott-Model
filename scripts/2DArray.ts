@@ -90,6 +90,16 @@ export const sum2d2d = (left: any[][], right: any[][]) => {
   });
 };
 
+export const minus2d2d = (left: any[][], right: any[][]) => {
+  if (left.length !== right.length || left[0].length !== right[0].length)
+    throw new Error();
+  return left.map((col, i) => {
+    return col.map((c, j) => {
+      return c - right[i][j];
+    });
+  });
+};
+
 export const div2dWithSch = (arr: any[][], sch: any) => {
   return arr.map(col => col.map(i => i / sch));
 };
@@ -97,3 +107,26 @@ export const div2dWithSch = (arr: any[][], sch: any) => {
 export const mul2dWithSch = (arr: any[][], sch: any) => {
   return arr.map(col => col.map(i => i * sch));
 };
+
+export const mul2dWith2d = (left: any[][], right:any[][]) => {
+  return left.map((col,i) => {
+    return col.map((c,j) => {
+      return calcInner(col, getRow(right,j))
+    })
+  })
+}
+
+export const getRow = (target:any[][], row: number) => {
+  const res = target.map((col,i) => {
+    return col[row]
+  })
+  return res
+}
+
+export const calcInner = (left: any[], right:any[]) => {
+  let ans = 0;
+  for (let i in left) {
+    ans += left[i] * right[i];
+  }
+  return ans;
+}
