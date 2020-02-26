@@ -5,13 +5,15 @@ import { Board } from "./Board";
 
 function App() {
   useEffect(() => {
-    const canvas = new Board(50,50,'canvas')
+    const canvas = new Board(120,'canvas')
     canvas.start()
   }, []);
   return (
     <div>
       aaaaaa
-      <canvas id="canvas" width={600} height={600} />
+      <canvas id="canvas" width={600} height={600} style={{
+        border: "1px solid black"
+      }}/>
     </div>
   );
 }
