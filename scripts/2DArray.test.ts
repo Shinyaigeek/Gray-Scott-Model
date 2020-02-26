@@ -6,7 +6,8 @@ import {
   shift2dArray,
   convert1dArrayTo2d,
   convert2dArrayTo1d,
-  sum2d2d
+  sum2d2d,
+  minus2d2d
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -167,6 +168,24 @@ describe("2DArray", (): void => {
     ).toEqual([
       [6, 8],
       [10, 12]
+    ]);
+  });
+
+  test("minus2d2d", (): void => {
+    expect(
+      minus2d2d(
+        [
+          [9, 6, 3, 1],
+          [4, 2, 1, -2]
+        ],
+        [
+          [1, 2, 3, 4],
+          [4, 3, 2, 1]
+        ]
+      )
+    ).toEqual([
+      [8, 4, 0, -3],
+      [0, -1, -1, -3]
     ]);
   });
 });
