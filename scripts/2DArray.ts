@@ -150,13 +150,21 @@ export const mul2dWithSch = (arr: number[][], sch: number) => {
   return arr.map(col => col.map(i => i * sch));
 };
 
-export const mul2dWith2d = (left: number[][], right: number[][]) => {
-  return left.map((col, i) => {
-    return right[0].map((c, j) => {
-      return calcInner(col, getRow(right, j));
-    });
-  });
-};
+// export const mul2dWith2d = (left: number[][], right: number[][]) => {
+//   return left.map((col, i) => {
+//     return right[0].map((c, j) => {
+//       return calcInner(col, getRow(right, j));
+//     });
+//   });
+// };
+
+export const mul2dWith2d = (left:number[][], right:number[][]) => {
+  return left.map((col,i) => {
+    return col.map((c,j) => {
+      return c * right[i][j]
+    })
+  })
+}
 
 export const getRow = (target: number[][], row: number) => {
   const res = target.map((col, i) => {
