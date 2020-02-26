@@ -158,13 +158,13 @@ export const mul2dWithSch = (arr: number[][], sch: number) => {
 //   });
 // };
 
-export const mul2dWith2d = (left:number[][], right:number[][]) => {
-  return left.map((col,i) => {
-    return col.map((c,j) => {
-      return c * right[i][j]
-    })
-  })
-}
+export const mul2dWith2d = (left: number[][], right: number[][]) => {
+  return left.map((col, i) => {
+    return col.map((c, j) => {
+      return c * right[i][j];
+    });
+  });
+};
 
 export const getRow = (target: number[][], row: number) => {
   const res = target.map((col, i) => {
@@ -179,4 +179,16 @@ export const calcInner = (left: number[], right: number[]) => {
     ans += left[i] * right[i];
   }
   return ans;
+};
+
+export const get2dWithRandom = (len: number) => {
+  const res = [];
+  for (let i = 0; i < len; i++) {
+    const col = [];
+    for (let j = 1; j <= len; j++) {
+      col.push(Math.random() * 0.1);
+    }
+    res.push(col);
+  }
+  return res;
 };

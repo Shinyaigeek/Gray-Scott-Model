@@ -10,7 +10,8 @@ import {
   minus2d2d,
   get2DArrayWithOnes,
   slicing,
-  get2DArrayWithZeros
+  get2DArrayWithZeros,
+  get2dWithRandom
 } from "../scripts/2DArray";
 
 export type Loc = {
@@ -38,11 +39,11 @@ export class Board {
 
   ctx: CanvasRenderingContext2D;
 
-  constructor(size:number, id: string) {
+  constructor(size: number, id: string) {
     this.width = size;
     this.height = size;
     this.uMap = get2DArrayWithOnes(this.width);
-    this.vMap = get2DArrayWithZeros(this.width)
+    this.vMap = get2DArrayWithZeros(this.width);
     // console.log(this.uMap,this.vMap)
     this.onChange = function(x: number, y: number, cell: Cell) {};
     this.dx = 0.01;
@@ -120,8 +121,8 @@ export class Board {
 
     this.uMap = sum2d2d(this.uMap, mul2dWithSch(dudt, this.dt));
     this.vMap = sum2d2d(this.vMap, mul2dWithSch(dvdt, this.dt));
-    if(Number.isNaN(this.uMap[0][0])) {
-      debugger
+    if (Number.isNaN(this.uMap[0][0])) {
+      debugger;
     }
     this.drawPiece(this.uMap);
   }
@@ -139,6 +140,7 @@ export class Board {
       (this.height - square) / 2 - 1,
       (this.height + square) / 2 - 1
     );
+    this.uMap = sum2d2d(this.uMap, get2dWithRandom(this.width));
     this.vMap = slicing(
       this.vMap,
       slicing(
@@ -150,7 +152,8 @@ export class Board {
       (this.height - square) / 2 - 1,
       (this.height + square) / 2 - 1
     );
-    this.drawPiece(this.uMap)
+    this.vMap = sum2d2d(this.vMap, get2dWithRandom(this.width));
+    this.drawPiece(this.uMap);
     setInterval(() => this.calcGrayScott(), 10);
   }
 
@@ -180,8 +183,7 @@ export class Board {
         this.drawPoint(
           Number(j),
           Number(i),
-          `rgb(${(col[j]) * 255},${(col[j]) * 255},${(col[j]) *
-            255})`
+          `rgb(${col[j] * 255},${col[j] * 255},${col[j] * 255})`
         );
       }
     }
