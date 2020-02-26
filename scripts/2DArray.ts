@@ -152,7 +152,7 @@ export const mul2dWithSch = (arr: number[][], sch: number) => {
 
 export const mul2dWith2d = (left: number[][], right: number[][]) => {
   return left.map((col, i) => {
-    return col.map((c, j) => {
+    return right[0].map((c, j) => {
       return calcInner(col, getRow(right, j));
     });
   });
