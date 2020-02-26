@@ -8,7 +8,8 @@ import {
   convert2dArrayTo1d,
   sum2d2d,
   minus2d2d,
-  div2dWithSch
+  div2dWithSch,
+  mul2dWithSch
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -204,6 +205,23 @@ describe("2DArray", (): void => {
       [4, 1],
       [1.5, 3.5],
       [0, 6]
+    ]);
+  });
+
+  test("mul2dWithSch", (): void => {
+    expect(
+      mul2dWithSch(
+        [
+          [8, 2],
+          [3, 7],
+          [0, 12]
+        ],
+        2
+      )
+    ).toEqual([
+      [16, 4],
+      [6, 14],
+      [0, 24]
     ]);
   });
 });
