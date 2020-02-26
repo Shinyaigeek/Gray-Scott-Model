@@ -6,7 +6,11 @@ import {
   shift2dArray,
   convert1dArrayTo2d,
   convert2dArrayTo1d,
-  sum2d2d
+  sum2d2d,
+  minus2d2d,
+  div2dWithSch,
+  mul2dWithSch,
+  mul2dWith2d
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -92,20 +96,20 @@ describe("2DArray", (): void => {
   });
 
   test("shift2dArray2", (): void => {
-    expect(shift2dArray(get2DArrayWithRange(4), 2, 0)).toEqual([
-      [9, 10, 11, 12],
+    expect(shift2dArray(get2DArrayWithRange(4), 1, 0)).toEqual([
       [13, 14, 15, 16],
       [1, 2, 3, 4],
-      [5, 6, 7, 8]
+      [5, 6, 7, 8],
+      [9, 10, 11, 12]
     ]);
   });
 
   test("shift2dArray3", (): void => {
-    expect(shift2dArray(get2DArrayWithRange(4), 2, 1)).toEqual([
-      [3, 4, 1, 2],
-      [7, 8, 5, 6],
-      [11, 12, 9, 10],
-      [15, 16, 13, 14]
+    expect(shift2dArray(get2DArrayWithRange(4), 1, 1)).toEqual([
+      [4, 1, 2, 3],
+      [8, 5, 6, 7],
+      [12, 9, 10, 11],
+      [16, 13, 14, 15]
     ]);
   });
 
@@ -167,6 +171,82 @@ describe("2DArray", (): void => {
     ).toEqual([
       [6, 8],
       [10, 12]
+    ]);
+  });
+
+  test("minus2d2d", (): void => {
+    expect(
+      minus2d2d(
+        [
+          [9, 6, 3, 1],
+          [4, 2, 1, -2]
+        ],
+        [
+          [1, 2, 3, 4],
+          [4, 3, 2, 1]
+        ]
+      )
+    ).toEqual([
+      [8, 4, 0, -3],
+      [0, -1, -1, -3]
+    ]);
+  });
+
+  test("div2dWithSch", (): void => {
+    expect(
+      div2dWithSch(
+        [
+          [8, 2],
+          [3, 7],
+          [0, 12]
+        ],
+        2
+      )
+    ).toEqual([
+      [4, 1],
+      [1.5, 3.5],
+      [0, 6]
+    ]);
+  });
+
+  test("mul2dWithSch", (): void => {
+    expect(
+      mul2dWithSch(
+        [
+          [8, 2],
+          [3, 7],
+          [0, 12]
+        ],
+        2
+      )
+    ).toEqual([
+      [16, 4],
+      [6, 14],
+      [0, 24]
+    ]);
+  });
+
+  test("mul2dWith2d", (): void => {
+    expect(
+      mul2dWith2d(
+        [
+          [1, 2, 1, 2],
+          [3, 4, 3, 4],
+          [5, 6, 5, 6],
+          [6, 7, 1, 2]
+        ],
+        [
+          [2, 1, 3, 2],
+          [2, 4, 5, 5],
+          [2, 1, 3, 2],
+          [2, 4, 5, 5]
+        ]
+      )
+    ).toEqual([
+      [2, 2, 3, 4],
+      [6, 16, 15, 20],
+      [10, 6, 15, 12],
+      [12, 28, 5, 10]
     ]);
   });
 });

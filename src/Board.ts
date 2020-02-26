@@ -96,25 +96,25 @@ export class Board {
 
   calcGrayScott() {
     const laplacian = this.calcLaplacian();
-    // const dudt = sum2d2d(
-    //   minus2d2d(
-    //     mul2dWithSch(laplacian.u, this.Du),
-    //     mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
-    //   ),
-    //   mul2dWithSch(
-    //     minus2d2d(get2DArrayWithOnes(this.uMap.length), this.uMap),
-    //     this.f
-    //   )
-    // );
-    const dudt = mul2dWithSch(laplacian.u, this.Du)
-    // const dvdt = minus2d2d(
-    //   sum2d2d(
-    //     mul2dWithSch(laplacian.v, this.Dv),
-    //     mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
-    //   ),
-    //   mul2dWithSch(this.vMap, this.f + this.k)
-    // );
-    const dvdt = mul2dWithSch(laplacian.v, this.Dv)
+    const dudt = sum2d2d(
+      minus2d2d(
+        mul2dWithSch(laplacian.u, this.Du),
+        mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
+      ),
+      mul2dWithSch(
+        minus2d2d(get2DArrayWithOnes(this.uMap.length), this.uMap),
+        this.f
+      )
+    );
+    // const dudt = mul2dWithSch(laplacian.u, this.Du)
+    const dvdt = minus2d2d(
+      sum2d2d(
+        mul2dWithSch(laplacian.v, this.Dv),
+        mul2dWith2d(mul2dWith2d(this.uMap, this.vMap), this.vMap)
+      ),
+      mul2dWithSch(this.vMap, this.f + this.k)
+    );
+    // const dvdt = mul2dWithSch(laplacian.v, this.Dv)
 
     // console.log(dudt, dvdt)
 
@@ -123,7 +123,6 @@ export class Board {
     if(Number.isNaN(this.uMap[0][0])) {
       debugger
     }
-    console.log(this.uMap)
     this.drawPiece(this.uMap);
   }
 
@@ -152,7 +151,7 @@ export class Board {
       (this.height + square) / 2 - 1
     );
     this.drawPiece(this.uMap)
-    setInterval(() => this.calcGrayScott(), 500);
+    setInterval(() => this.calcGrayScott(), 10);
   }
 
   drawPoint(x: number, y: number, color: string) {
