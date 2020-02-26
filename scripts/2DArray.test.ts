@@ -9,7 +9,8 @@ import {
   sum2d2d,
   minus2d2d,
   div2dWithSch,
-  mul2dWithSch
+  mul2dWithSch,
+  mul2dWith2d
 } from "./2DArray";
 
 describe("2DArray", (): void => {
@@ -222,6 +223,26 @@ describe("2DArray", (): void => {
       [16, 4],
       [6, 14],
       [0, 24]
+    ]);
+  });
+
+  test("mul2dWith2d", (): void => {
+    expect(
+      mul2dWith2d(
+        [
+          [1, 2],
+          [3, 4],
+          [5, 6]
+        ],
+        [
+          [12, 11, 45, 56],
+          [23, 24, 67, 78]
+        ]
+      )
+    ).toEqual([
+      [58, 59, 179, 212],
+      [128, 129, 403, 480],
+      [198, 199, 627, 748]
     ]);
   });
 });
