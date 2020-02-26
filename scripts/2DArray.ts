@@ -47,7 +47,7 @@ export const shift2dArray = (target: number[][], n: number, axis?: 0 | 1) => {
   if (axis === 0) {
     if (n >= 0) {
       const copy = Array.from(target);
-      const sliced = copy.splice(n);
+      const sliced = copy.splice(target.length - n);
       return sliced.concat(copy);
     } else {
       const copy = Array.from(target);
@@ -59,7 +59,7 @@ export const shift2dArray = (target: number[][], n: number, axis?: 0 | 1) => {
       let res = Array.from(target);
       for (let i in res) {
         const col = Array.from(res[i]);
-        const sliced = col.splice(n);
+        const sliced = col.splice(target.length - n);
         res[i] = sliced.concat(col);
       }
       return res;

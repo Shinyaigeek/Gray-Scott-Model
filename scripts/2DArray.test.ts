@@ -96,20 +96,20 @@ describe("2DArray", (): void => {
   });
 
   test("shift2dArray2", (): void => {
-    expect(shift2dArray(get2DArrayWithRange(4), 2, 0)).toEqual([
-      [9, 10, 11, 12],
+    expect(shift2dArray(get2DArrayWithRange(4), 1, 0)).toEqual([
       [13, 14, 15, 16],
       [1, 2, 3, 4],
-      [5, 6, 7, 8]
+      [5, 6, 7, 8],
+      [9, 10, 11, 12]
     ]);
   });
 
   test("shift2dArray3", (): void => {
-    expect(shift2dArray(get2DArrayWithRange(4), 2, 1)).toEqual([
-      [3, 4, 1, 2],
-      [7, 8, 5, 6],
-      [11, 12, 9, 10],
-      [15, 16, 13, 14]
+    expect(shift2dArray(get2DArrayWithRange(4), 1, 1)).toEqual([
+      [4, 1, 2, 3],
+      [8, 5, 6, 7],
+      [12, 9, 10, 11],
+      [16, 13, 14, 15]
     ]);
   });
 
@@ -246,5 +246,21 @@ describe("2DArray", (): void => {
     ]);
   });
 
-  
+  test("mul2d2d2", (): void => {
+    expect(
+      mul2dWith2d(
+        [
+          [1, 2],
+          [3, 4]
+        ],
+        [
+          [5, 6],
+          [7, 8]
+        ]
+      )
+    ).toEqual([
+      [19, 22],
+      [43, 50]
+    ]);
+  });
 });
