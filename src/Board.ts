@@ -1,6 +1,4 @@
 import { Cell } from "./Cell";
-import { UCell } from "./UCell";
-import { VCell } from "./VCell";
 import {
   shift2dArray,
   sum2d2d,
@@ -36,8 +34,13 @@ export class Board {
   k: number;
 
   cellSize: number;
+  square: number;
+
+  timer: number | undefined;
 
   ctx: CanvasRenderingContext2D;
+
+  playing: boolean;
 
   constructor(size: number, id: string) {
     this.width = size;
@@ -51,13 +54,15 @@ export class Board {
     this.Du = 0.00002;
     this.Dv = 0.00001;
 
-    this.f = 0.022;
-    this.k = 0.051;
+    this.f = 0.025;
+    this.k = 0.05;
 
     const canvas = document.getElementById(id)! as HTMLCanvasElement;
 
     this.ctx = canvas.getContext("2d")! as CanvasRenderingContext2D;
-    this.cellSize = 5;
+    this.cellSize = 3;
+    this.square = 20;
+    this.playing = false;
   }
 
   calcLaplacian() {
@@ -127,18 +132,19 @@ export class Board {
     this.drawPiece(this.uMap);
   }
 
-  start() {
-    const square = 20;
+  reset() {
+    this.uMap = get2DArrayWithOnes(this.width);
+    this.vMap = get2DArrayWithZeros(this.width);
     this.uMap = slicing(
       this.uMap,
       slicing(
         this.uMap[0],
         0.5,
-        (this.height - square) / 2 - 1,
-        (this.height + square) / 2 - 1
+        (this.height - this.square) / 2 - 1,
+        (this.height + this.square) / 2 - 1
       ),
-      (this.height - square) / 2 - 1,
-      (this.height + square) / 2 - 1
+      (this.height - this.square) / 2 - 1,
+      (this.height + this.square) / 2 - 1
     );
     this.uMap = sum2d2d(this.uMap, get2dWithRandom(this.width));
     this.vMap = slicing(
@@ -146,15 +152,24 @@ export class Board {
       slicing(
         this.vMap[0],
         0.25,
-        (this.height - square) / 2 - 1,
-        (this.height + square) / 2 - 1
+        (this.height - this.square) / 2 - 1,
+        (this.height + this.square) / 2 - 1
       ),
-      (this.height - square) / 2 - 1,
-      (this.height + square) / 2 - 1
+      (this.height - this.square) / 2 - 1,
+      (this.height + this.square) / 2 - 1
     );
     this.vMap = sum2d2d(this.vMap, get2dWithRandom(this.width));
     this.drawPiece(this.uMap);
-    setInterval(() => this.calcGrayScott(), 10);
+  }
+
+  start() {
+    this.playing = true;
+    this.timer = window.setInterval(() => this.calcGrayScott(), 1);
+  }
+
+  pause() {
+    this.playing = false;
+    window.clearInterval(this.timer);
   }
 
   drawPoint(x: number, y: number, color: string) {
