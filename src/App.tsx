@@ -8,48 +8,37 @@ import { Input } from "./Input";
 
 function App() {
   let canvas: Board;
-  const [f, setF] = useState(0.022);
-  const [k, setK] = useState(0.01);
   useEffect(() => {
     canvas = new Board(100, "canvas");
     canvas.reset();
   }, []);
 
   function start() {
+    const f = Number((document.getElementById("f") as HTMLInputElement).value);
+    const k = Number((document.getElementById("k") as HTMLInputElement).value);
     if (!(k > 0 && k < 0.1 && f > 0 && f < 0.1)) {
       alert("f,kは正しい値を入力してください");
     } else {
+      canvas.f = f;
+      canvas.k = k;
       canvas.start();
-      Array.from(document.querySelectorAll('input')).forEach(que => {
-        que.disabled = true
-      })
+      Array.from(document.querySelectorAll("input")).forEach(que => {
+        que.disabled = true;
+      });
+      document.getElementById("state")!.innerText = "Playing";
     }
   }
 
   function pause() {
     canvas.pause();
-    Array.from(document.querySelectorAll('input')).forEach(que => {
-      que.disabled = false
-    })
+    Array.from(document.querySelectorAll("input")).forEach(que => {
+      que.disabled = false;
+    });
+    document.getElementById("state")!.innerText = "Pausing";
   }
 
   function reset() {
     canvas.reset();
-  }
-
-  function setValue(target: string, value: number) {
-    switch (target) {
-      case "f": {
-        setF(value);
-        canvas.f = value;
-        break;
-      }
-      case "k": {
-        setK(value);
-        canvas.k = value;
-        break;
-      }
-    }
   }
 
   return (
@@ -59,9 +48,13 @@ function App() {
         margin: "0 auto"
       }}
     >
-      <h1 style={{
-        textAlign: "center"
-      }}>Gray Scott Model</h1>
+      <h1
+        style={{
+          textAlign: "center"
+        }}
+      >
+        Gray Scott Model
+      </h1>
       <div
         className="canvas"
         style={{
@@ -78,10 +71,15 @@ function App() {
           }}
         />
       </div>
-      <div id="state" style={{
-        fontSize: "22px",
-        margin:"6px 8px"
-      }}>Pausing</div>
+      <div
+        id="state"
+        style={{
+          fontSize: "22px",
+          margin: "6px 8px"
+        }}
+      >
+        Pausing
+      </div>
       <div className="forms">
         <div
           className="buttons"
@@ -100,18 +98,8 @@ function App() {
           }}
         >
           <form id="forms">
-            <Input
-              value={f}
-              placeholder="input number 0-0.1"
-              label="f"
-              onChange={setValue}
-            />
-            <Input
-              value={k}
-              placeholder="input number 0-0.1"
-              label="k"
-              onChange={setValue}
-            />
+            <Input value={0.04} placeholder="input number 0-0.1" label="f" />
+            <Input value={0.06} placeholder="input number 0-0.1" label="k" />
           </form>
         </div>
       </div>
