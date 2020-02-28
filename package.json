@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start": "webpack-dev-server",
-    "deploy": "webpack"
+    "deploy": "yarn install --frozen-lockfile && webpack"
   },
   "keywords": [],
   "author": "",
