@@ -6,7 +6,7 @@ module.exports = {
     bundle: "./src/App.tsx"
   },
   output: {
-    path: path.join(__dirname, "public"),
+    path: path.join(__dirname, "dist"),
     filename: "[name].js"
   },
   resolve: {
