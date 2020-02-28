@@ -6,7 +6,6 @@ interface Props {
   label: string;
   placeholder: string;
   value: number;
-  onChange: (target: string, value: number) => void;
 }
 
 export function Input(props: Props) {
@@ -25,16 +24,17 @@ export function Input(props: Props) {
         {props.label}:
       </span>{" "}
       <input
-        type="text"
+        type="number"
         placeholder={props.placeholder}
-        value={props.value}
         id={props.label}
-        onChange={e => props.onChange(props.label, Number(e.target.value))}
         disabled={false}
+        step={0.00001}
+        min={0}
+        max={0.1}
       />
       <style>{`
         #${props.label} {
-            width: 84px;
+            width: 108px;
             height: 32px;
             padding: 4px 11px;
             font-size: 14px;
