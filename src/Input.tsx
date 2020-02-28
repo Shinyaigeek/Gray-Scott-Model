@@ -34,7 +34,7 @@ export function Input(props: Props) {
       />
       <style>{`
         #${props.label} {
-            width: 108px;
+            width: 216px;
             height: 32px;
             padding: 4px 11px;
             font-size: 14px;
